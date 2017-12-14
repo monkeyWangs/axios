@@ -1,8 +1,10 @@
 var convertUrl = exports.convertUrl = function (url) {
   // /restful/:id/:list/{id} -> restful_id_list_id
   // /restful/:id/:list/{id}.json -> restful_id_list_id
+  // /restful-test/:id -> restfultest_id
   var _url = url
     .replace(/:|{|}/g, '')
+    .replace(/-/g, '')
     .split('/')
     .filter(value => !!value).join('_');
   return _url.split('.')[0];
