@@ -25,12 +25,13 @@ function createAPI(baseURL) {
         ...userHeader,
         'X-Tracking-ID': log.tid
       };
-      return cache(Object.assign({}, {
-        url: conf.url,
-        baseURL: baseURL,
-        method: conf.method,
-        headers: conf.headers
-      }, conf.opts), instance)
+      return cache(conf, instance)
+      // return instance(Object.assign({}, {
+      //   url: conf.url,
+      //   baseURL: baseURL,
+      //   method: conf.method,
+      //   headers: conf.headers
+      // }, conf.opts));
     });
   };
 }

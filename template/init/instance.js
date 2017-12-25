@@ -6,6 +6,6 @@ const baseUrl = {
   dev: '',
   pre: '',
   prod: ''
-}[config.env || 'mock'];
+}[process.env.NODE_ENV === 'development' ? config.env : process.env.NODE_ENV];
 
 export default createAPI(baseUrl);

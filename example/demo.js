@@ -1,6 +1,6 @@
 import * as api from './api';
 
-api.demo.restful_id_list_get({
+api.demo.getUserInfo_get({
   path: {
     id: 1
   }
