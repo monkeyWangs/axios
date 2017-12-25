@@ -20,10 +20,12 @@ export default {
       loadingObj = toast.loading({
         message: msg,
         masked: true,
+        duration: 0,
         maskStyle: {
           background: 'rgba(0,0,0,0)'  // 设置mask样式
         }
       }, true)
+      loadingObj.open()
     }
   },
   close: msg => {

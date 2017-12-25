@@ -46,6 +46,17 @@ function createAPI(baseURL) {
     config.cacheData = config.opts.cacheData;
     delete config.opts.cacheData;
 
+    if (config.method === 'get') {
+      config.params = config.opts
+    } else {
+      // 有些时候，部分数据要放在query中
+      if (config.opts.params) {
+        config.params = config.opts.params
+        delete config.opts.params
+      }
+      config.data = config.opts
+    }
+
     return Promise.all([getUserInfoPromise, PG.exec('u51GetLogEvent')]).then(values => {
       const [user, log] = values;
       let userHeader = {};
@@ -60,11 +71,8 @@ function createAPI(baseURL) {
         'X-Tracking-ID': log.tid
       };
       return cache(Object.assign({}, {
-        url: config.url,
-        baseURL: baseURL,
-        method: config.method,
-        headers: config.headers
-      }, config.opts), instance)
+        baseURL: baseURL
+      }, config), instance)
     });
   };
 }
