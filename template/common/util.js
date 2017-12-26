@@ -77,7 +77,28 @@ function createAPI(baseURL) {
   };
 }
 
+/**
+ * 处理restful接口
+ * @param url
+ * @param opts
+ * @returns {*}
+ */
+
+function convertRESTAPI(url, opts) {
+  if (!opts || !opts.path) return url;
+
+  const pathKeys = Object.keys(opts.path);
+
+  pathKeys.forEach((key) => {
+    const r = new RegExp('(:' + key + '|{' + key + '})', 'g');
+    url = url.replace(r, opts.path[key]);
+  });
+
+  return url;
+}
+
 
 export {
-  createAPI
+  createAPI,
+  convertRESTAPI
 };
