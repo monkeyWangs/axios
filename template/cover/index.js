@@ -8,7 +8,7 @@ function {{$$.convertMethod(mock)}}(opts) {
   let checkResult = checkData(opts, rulesConf['{{mock.url}}']);
   if (!checkResult.result) {
 
-    console.error('{{mock.description}}接口参数'+checkResult.errorTypes.json(';')+'错误，请检查')
+    console.error('{{mock.description}}接口参数'+checkResult.errorTypes.join(';')+'错误，请检查')
     return
   }
   <% } %>
@@ -33,7 +33,7 @@ function checkData (data, rules) {
       }
     })
     return {
-        errorTypes
+        errorTypes,
         result
     }
 }
