@@ -5,7 +5,7 @@ import { convertRESTAPI } from '{{$$.relative("util")}}';
 <% _.forEach(data.mocks, function(mock, i){ %>/** {{mock.description}} */
 function {{$$.convertMethod(mock)}}(opts) {
   <%if (mock.parameters) {%>
-  if (!checkData(opts, paramsConf[{{mock.url}}])) {
+  if (!checkData(opts, paramsConf['{{mock.url}}'])) {
 
     throw new Error('{{mock.description}} 参数错误，请检查')
     return
