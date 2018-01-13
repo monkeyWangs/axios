@@ -5,6 +5,8 @@ import { convertRESTAPI } from '{{$$.relative("util")}}';
 function {{$$.convertMethod(mock)}}(opts) {
   <%if (mock.parameters) {%>
   if (!checkData(opts, {{JSON.stringify(mock.parameters)}})) {
+
+    throw new Error({{mock.description}} '参数错误，请检查')
     return
   }
   <% } %>
@@ -22,11 +24,8 @@ function {{$$.convertMethod(mock)}}(opts) {
 function checkData (data, rules) {
     let result = true
     rules.forEach((rule) => {
-      if (rule.in === 'body' && rule.required) {
-        if (data[rule.name] === undefined) {
-          throw new Error(`${data[rule.name]} is required!`)
-          result = false
-        }
+      if (data[rule.name] === undefined || (typeof data[rule.name]).toLocaleLowerCase() !== rule.type.toLocaleLowerCase()) {
+        result = false
       }
     })
     return result
