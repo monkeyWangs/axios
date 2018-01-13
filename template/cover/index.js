@@ -1,11 +1,11 @@
 import instance from './instance';
-import paramsConf from './param.conf.json'
+import rulesConf from './rules.conf'
 import { convertRESTAPI } from '{{$$.relative("util")}}';
 
 <% _.forEach(data.mocks, function(mock, i){ %>/** {{mock.description}} */
 function {{$$.convertMethod(mock)}}(opts) {
   <%if (mock.parameters) {%>
-  if (!checkData(opts, paramsConf['{{mock.url}}'])) {
+  if (!checkData(opts, rulesConf['{{mock.url}}'])) {
 
     throw new Error('{{mock.description}} 参数错误，请检查')
     return
