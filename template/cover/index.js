@@ -2,7 +2,7 @@ import instance from './instance';
 import paramsConf from './param.conf.json'
 import { convertRESTAPI } from '{{$$.relative("util")}}';
 
-<% _.forEach(data.mocks, function(mock){ %>/** {{mock.description}} */
+<% _.forEach(data.mocks, function(mock, i){ %>/** {{mock.description}} */
 function {{$$.convertMethod(mock)}}(opts) {
   <%if (mock.parameters) {%>
   if (!checkData(opts, paramsConf[params{{i}}])) {
