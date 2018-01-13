@@ -1,4 +1,4 @@
 {<% _.forEach(data.mocks, function(mock, i){ %>
-  "parma{{i}}": {{JSON.stringify(mock.parameters)}}
+  "{{mock.url}}": {{JSON.stringify(mock.parameters)}}
   <% if(data.mocks.length - 1 !== i) { %>,<% } %>
 <% }) %>
