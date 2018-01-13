@@ -23,7 +23,7 @@ function {{$$.convertMethod(mock)}}(opts) {
   {{$$.convertMethod(mock)}}<% if(data.mocks.length - 1 !== i) { %>,<% } %><% }) %>
 };
 
-function checkData (data, rules) {
+function checkData (data = {}, rules) {
     let result = true;
     let errorTypes = []
     rules.forEach((rule) => {
