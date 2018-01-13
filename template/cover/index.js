@@ -5,9 +5,10 @@ import { convertRESTAPI } from '{{$$.relative("util")}}';
 <% _.forEach(data.mocks, function(mock, i){ %>/** {{mock.description}} */
 function {{$$.convertMethod(mock)}}(opts) {
   <%if (mock.parameters) {%>
-  if (!checkData(opts, rulesConf['{{mock.url}}'])) {
+  let checkResult = checkData(opts, rulesConf['{{mock.url}}']);
+  if (!checkResult.result) {
 
-    throw new Error('{{mock.description}} 参数错误，请检查')
+    console.error('{{mock.description}}接口参数'+checkResult.errorTypes.json(';')+'错误，请检查')
     return
   }
   <% } %>
@@ -23,11 +24,16 @@ function {{$$.convertMethod(mock)}}(opts) {
 };
 
 function checkData (data, rules) {
-    let result = true
+    let result = true;
+    let errorTypes = []
     rules.forEach((rule) => {
-      if (data[rule.name] === undefined || (typeof data[rule.name]).toLocaleLowerCase() !== rule.type.toLocaleLowerCase()) {
+      if (data[rule.name] === undefined || (rule.type && (typeof data[rule.name]).toLocaleLowerCase() !== rule.type.toLocaleLowerCase()) {
+        errorTypes.push(rule.name)
         result = false
       }
     })
-    return result
+    return {
+        errorTypes
+        result
+    }
 }
