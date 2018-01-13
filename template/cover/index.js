@@ -6,7 +6,7 @@ function {{$$.convertMethod(mock)}}(opts) {
   <%if (mock.parameters) {%>
   if (!checkData(opts, {{JSON.stringify(mock.parameters)}})) {
 
-    throw new Error({{mock.description}} '参数错误，请检查')
+    throw new Error('{{mock.description}} 参数错误，请检查')
     return
   }
   <% } %>
