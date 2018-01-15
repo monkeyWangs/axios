@@ -107,7 +107,7 @@ function checkData (data = {}, rules) {
   let errorTypes = []
   rules.forEach((rule) => {
     if (data[rule.name] === undefined || (rule.type && (typeof data[rule.name]).toLocaleLowerCase() !== rule.type.toLocaleLowerCase())) {
-      errorTypes.push(`${rule.name}: ${rule.type}`)
+      errorTypes.push(`${rule.name}: ${rule.type || 'object'} `)
       result = false
     }
   })
