@@ -2,6 +2,7 @@ import axios from 'axios';
 import {PG} from '@u51/pg/full';
 import cache from './cache'
 import toast from './toast'
+import rulesConf from './military/rules.conf'
 
 const instance = axios.create();
 
@@ -39,7 +40,11 @@ instance.interceptors.response.use(response => {
 function createAPI(baseURL) {
   return function (config) {
     config = config || {};
-
+    let checkResult = checkData(config.opts, rulesConf[config.url]);
+    if (!checkResult.result) {
+      console.error(`${config.url} 参数错误。请确认以下参数是否正确：\n${checkResult.errorTypes.join('\n')}`);
+      return
+    }
     config.toastText = config.opts.toastText || '';
     delete config.opts.toastText;
 
@@ -95,6 +100,21 @@ function convertRESTAPI(url, opts) {
   });
 
   return url;
+}
+
+function checkData (data = {}, rules) {
+  let result = true;
+  let errorTypes = []
+  rules.forEach((rule) => {
+    if (data[rule.name] === undefined || (rule.type && (typeof data[rule.name]).toLocaleLowerCase() !== rule.type.toLocaleLowerCase())) {
+      errorTypes.push(`${rule.name}: ${rule.type}`)
+      result = false
+    }
+  })
+  return {
+    errorTypes,
+    result
+  }
 }
 
 
